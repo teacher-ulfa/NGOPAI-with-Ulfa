@@ -1,0 +1,6 @@
+{
+  "name": "NGOPAI : Level Up GPAI",
+  "description": "Platform NGOPAI (Ngobrol Pendidikan Agama Islam) - Mengajar dengan hati, hack administrasi dengan AI bersama Ibu Ulfatul Husna, S.Ag., M.Pd. SMAN 1 Krembung Sidoarjo & Kementerian Agama.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
