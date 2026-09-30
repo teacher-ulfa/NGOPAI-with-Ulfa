@@ -6,6 +6,7 @@ import { EventInfoSection } from './components/EventInfoSection';
 import { ProfileSection } from './components/ProfileSection';
 import { MateriSection } from './components/MateriSection';
 import { PanduanSection } from './components/PanduanSection';
+import { TroubleshootSection } from './components/TroubleshootSection';
 import { KaryaSection } from './components/KaryaSection';
 import { Footer } from './components/Footer';
 
@@ -44,11 +45,14 @@ export default function App() {
         {/* 7. PANDUAN PRAKTIS & PROMPT GENERATOR (Proyek Jurnal Spreadsheet & Website AI Vercel) */}
         <PanduanSection />
 
-        {/* 8. CONTOH KARYA / PORTOFOLIO (With Live Website Pembelajaran Ulfa di Vercel) */}
+        {/* 8. PUSAT SOLUSI: GAGAL PUBLISH GITHUB & ERROR VERCEL */}
+        <TroubleshootSection />
+
+        {/* 9. CONTOH KARYA / PORTOFOLIO (With Live Website Pembelajaran Ulfa di Vercel) */}
         <KaryaSection />
       </main>
 
-      {/* 9. FOOTER */}
+      {/* 10. FOOTER */}
       <Footer />
 
       {/* FLOATING QUICK ARSIP BADGE */}

@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sections = ['beranda', 'refleksi', 'profil', 'materi', 'panduan', 'karya'];
+      const sections = ['beranda', 'refleksi', 'profil', 'materi', 'panduan', 'troubleshoot', 'karya'];
       const scrollPos = window.scrollY + 100;
 
       for (const section of sections) {
@@ -36,7 +36,8 @@ export const Navbar: React.FC = () => {
     { id: 'refleksi', label: 'Refleksi NGOPAI' },
     { id: 'profil', label: 'Profil Narasumber' },
     { id: 'materi', label: 'Materi' },
-    { id: 'panduan', label: 'Panduan Praktis' },
+    { id: 'panduan', label: 'Panduan' },
+    { id: 'troubleshoot', label: 'Solusi Error' },
     { id: 'karya', label: 'Contoh Karya' },
   ];
 
