@@ -13,10 +13,117 @@ interface TroubleItem {
 
 export const TroubleshootSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'github' | 'vercel'>('github');
-  const [expandedTroubleId, setExpandedTroubleId] = useState<string>('gh-1');
+  const [expandedTroubleId, setExpandedTroubleId] = useState<string>('gh-blank');
   const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
 
   const githubTroubles: TroubleItem[] = [
+    {
+      id: 'gh-blank',
+      problem: 'Layar Masih Putih Polos (Blank Screen) Meski GitHub Status Sudah "Active" / Berhasil',
+      symptom: 'GitHub Actions sudah centang hijau dan status bertuliskan "Deployed", namun saat alamat web dibuka yang muncul hanya halaman putih kosong tanpa teks dan gambar.',
+      cause: 'Ini adalah masalah nomor 1 paling sering terjadi, penyebab utamanya adalah: (1) Path absolut pada link file JS/CSS (tertulis "/assets/..." dengan garis miring di depan sehingga browser salah mencari folder), (2) Error "process is not defined" karena kode memanggil API key lewat process.env, atau (3) Kontainer elemen <div id="root"> atau <div id="app"> hilang.',
+      solutionSteps: [
+        'Solusi Cepat 1 (Periksa Path Garis Miring): Buka file index.html di GitHub. Jika ada baris seperti <script src="/assets/index-xxx.js"> atau <link href="/style.css">, UBAH tanda garis miring di depannya menjadi titik-garis-miring: <script src="./assets/index-xxx.js"> atau <link href="./style.css">. Titik (.) penting agar browser mencari file di dalam subfolder repositori Anda!',
+        'Solusi Cepat 2 (Jika Menggunakan Vite / React): Buka file "vite.config.js" atau "vite.config.ts" di repositori Anda, tambahkan baris: base: "./" di dalam export default defineConfig({ base: "./", plugins: [...] }). Lalu simpan (commit) dan build ulang.',
+        'Solusi Cepat 3 (Buka Layar Diagnosis F12): Di browser laptop Anda saat membuka web yang blank, tekan tombol keyboard "F12" (atau klik kanan > Inspect), lalu klik tab "Console". Perhatikan tulisan berwarna MERAH. Di sana akan tertulis nama error yang sebenarnya (misal: "Failed to load resource: 404" atau "ReferenceError: process is not defined").',
+        'Solusi Cepat 4 (Gunakan Template Single-File Anti-Blank): Salin kode utuh template Jurnal PAI yang sudah kami sediakan di bawah ini, lalu timpa seluruh isi file index.html Anda di GitHub. Template ini sudah menyatukan HTML + CSS Tailwind + JavaScript dalam 1 file tunggal sehingga DIJAMIN 100% tidak akan pernah blank!'
+      ],
+      codeFix: `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jurnal Refleksi Pembelajaran PAI</title>
+  <!-- Tailwind CSS CDN Mandiri (Bebas Error Path) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen p-4 sm:p-8 flex items-center justify-center font-sans">
+  <div class="max-w-lg w-full bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-100">
+    <div class="text-center mb-6">
+      <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full mb-2">
+        Jurnal Pembelajaran Siswa PAI
+      </span>
+      <h1 class="text-2xl font-bold text-slate-800">Refleksi Harian Peserta Didik</h1>
+      <p class="text-xs text-slate-500 mt-1">Isi jurnal pembelajaran setelah mengikuti materi hari ini</p>
+    </div>
+
+    <form id="jurnalForm" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
+        <input type="text" id="nama" required placeholder="Contoh: Muhammad Rizki" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas & Jurusan:</label>
+        <input type="text" id="kelas" required placeholder="Contoh: XI-IPA 2" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Materi / Topik yang Dipelajari:</label>
+        <input type="text" id="materi" required placeholder="Contoh: Iman Kepada Hari Akhir" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Apa Hikmah & Refleksi yang Kamu Dapatkan?</label>
+        <textarea id="refleksi" required rows="3" placeholder="Tuliskan hikmah yang kamu petik..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+      </div>
+
+      <button type="submit" id="btnSubmit" class="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-sm transition-all shadow-md">
+        Kirim Refleksi ke Spreadsheet
+      </button>
+    </form>
+
+    <div id="statusMsg" class="mt-4 p-3 rounded-xl text-xs text-center hidden"></div>
+  </div>
+
+  <script>
+    // Ganti URL ini dengan URL Web App dari Google Apps Script Anda (berakhiran /exec)
+    const SCRIPT_URL = "PASTE_URL_WEB_APP_APPS_SCRIPT_ANDA_DI_SINI";
+
+    document.getElementById("jurnalForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const btn = document.getElementById("btnSubmit");
+      const msg = document.getElementById("statusMsg");
+      
+      btn.disabled = true;
+      btn.innerText = "Sedang Mengirim...";
+
+      const data = new URLSearchParams();
+      data.append("nama", document.getElementById("nama").value);
+      data.append("kelas", document.getElementById("kelas").value);
+      data.append("materi", document.getElementById("materi").value);
+      data.append("refleksi", document.getElementById("refleksi").value);
+
+      if (SCRIPT_URL.includes("PASTE_URL")) {
+        msg.className = "mt-4 p-3 rounded-xl text-xs text-center bg-amber-100 text-amber-900 block";
+        msg.innerText = "Peringatan: URL Apps Script belum diganti, namun aplikasi web berhasil tampil normal 100%!";
+        btn.disabled = false;
+        btn.innerText = "Kirim Refleksi ke Spreadsheet";
+        return;
+      }
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: data,
+        mode: "no-cors"
+      }).then(() => {
+        msg.className = "mt-4 p-3 rounded-xl text-xs text-center bg-emerald-100 text-emerald-900 block";
+        msg.innerText = "Alhamdulillah! Refleksi kamu berhasil tersimpan di Google Spreadsheet guru.";
+        document.getElementById("jurnalForm").reset();
+        btn.disabled = false;
+        btn.innerText = "Kirim Refleksi ke Spreadsheet";
+      }).catch(err => {
+        msg.className = "mt-4 p-3 rounded-xl text-xs text-center bg-rose-100 text-rose-900 block";
+        msg.innerText = "Terjadi kendala pengiriman: " + err.message;
+        btn.disabled = false;
+        btn.innerText = "Kirim Ulang";
+      });
+    });
+  </script>
+</body>
+</html>`,
+      quickTip: 'Kunci anti-blank: Gunakan CDN online dan jangan gunakan path lokal yang diawali "/" tanpa titik di depannya.'
+    },
     {
       id: 'gh-1',
       problem: 'Error 404: "There isn\'t a GitHub Pages site here"',
