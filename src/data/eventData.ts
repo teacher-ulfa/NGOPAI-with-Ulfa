@@ -577,6 +577,40 @@ Fitur yang harus ada:
 
 export const PORTFOLIO_DATA: PortfolioItem[] = [
   {
+    id: "karya-penilaian-antar-teman",
+    title: "Penilaian Antar Teman (Kelas X.1)",
+    category: "Aplikasi Web",
+    schoolContext: "Karya Nyata Hasil Pembelajaran Guru PAI di SMAN 1 Krembung (GitHub Pages)",
+    description: "Aplikasi instrumen asesmen antar teman (peer-assessment) digital interaktif untuk peserta didik Kelas X.1. Memudahkan siswa mengevaluasi keaktifan, kerja sama, dan akhlak teman sekelompok secara objektif, transparan, dan terstruktur sesuai Kurikulum Merdeka.",
+    features: [
+      "Live deployment di GitHub Pages (https://teacher-ulfa.github.io/NilaiAntarteman-X.1/)",
+      "Formulir penilaian sikap sosial, adab, dan kerja sama kelompok",
+      "Antarmuka cepat dan responsif untuk pengisian langsung lewat smartphone di kelas",
+      "Mendukung evaluasi formatif autentik Profil Pelajar Pancasila"
+    ],
+    techStack: ["HTML5", "Tailwind CSS", "JavaScript", "GitHub Pages"],
+    impactMetric: "Digunakan aktif oleh siswa Kelas X.1 SMAN 1 Krembung untuk penilaian sikap dan kolaborasi",
+    demoType: "portal",
+    liveUrl: "https://teacher-ulfa.github.io/NilaiAntarteman-X.1/"
+  },
+  {
+    id: "karya-penilaian-diri",
+    title: "Penilaian Diri / Self Asesmen (Kelas X.1)",
+    category: "Aplikasi Web",
+    schoolContext: "Karya Nyata Hasil Pembelajaran Guru PAI di SMAN 1 Krembung (GitHub Pages)",
+    description: "Aplikasi evaluasi mandiri (self-assessment) berbasis web bagi peserta didik Kelas X.1. Dirancang untuk menumbuhkan budaya muhasabah (introspeksi diri), mengukur kedisiplinan ibadah harian, serta kejujuran dalam pengamalan budi pekerti Islam.",
+    features: [
+      "Live deployment di GitHub Pages (https://teacher-ulfa.github.io/SelfAsesmenX-1/)",
+      "Instrumen refleksi kejujuran, ibadah harian, dan pembiasaan akhlak terpuji",
+      "Tampilan interaktif yang membimbing siswa menilai diri secara jujur dan sadar",
+      "Akses ringan tanpa beban kuota untuk seluruh peserta didik"
+    ],
+    techStack: ["HTML5", "Tailwind CSS", "JavaScript", "GitHub Pages"],
+    impactMetric: "Meningkatkan kesadaran muhasabah dan kejujuran refleksi diri siswa dalam pembelajaran PAIBP",
+    demoType: "portal",
+    liveUrl: "https://teacher-ulfa.github.io/SelfAsesmenX-1/"
+  },
+  {
     id: "karya-website-ulfa",
     title: "Website Pembelajaran Ulfa (Live di Vercel)",
     category: "Aplikasi Web",
